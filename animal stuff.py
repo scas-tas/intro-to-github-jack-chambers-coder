@@ -1,13 +1,30 @@
 import random
 import time
+match_ups = []
+num1 = -1
+num2 = 0
 def get_random_buff():
     return random.randint(1, 12)
 
 def get_random_number():
     return random.randint(1,4)
 
-#def get_winner(animal_1, animal_2):
-#   if dictionary1[animal_1()]
+def get_matchup():
+   while len(match_ups) != len(List_of_selected_animals):
+    match_ups.append(random.randint(1, len(List_of_selected_animals)))
+   return(match_ups)
+
+def determine_iterable():
+   if num1 or num2 >= len(match_ups):
+      e = "z"
+   else:
+    num1 += 1
+    num2 += 1
+
+def get_winner(animal_1, animal_2):
+   if dictionary1(animal_1("Base_strength")) + dictionary1(animal_1("Base_strength")) * 1/2(dictionary1(animal_1("amount"))) > dictionary1(animal_2("Base_strength")) + dictionary1(animal_1("Base_strength")) * 1/2(dictionary1(animal_2("amount"))):
+      print("soirgnsrgnionwsrg")
+
 letter_count = 0
 yes_or_no = "?"
 animal_letter = {}
@@ -69,6 +86,7 @@ dictionary1 = {'Spider': {
                       },
 }
 List_of_selected_animals = []
+
 while True:
    animal_search = input("Search up an animal: ")
    if animal_search == "":
@@ -119,3 +137,7 @@ while True:
      break
   print("Invalid")
 
+get_matchup()
+while True:
+   determine_iterable()
+   print(get_winner(List_of_selected_animals(match_ups(num1)), List_of_selected_animals(match_ups(num2))))
