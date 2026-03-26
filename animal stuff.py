@@ -1,28 +1,32 @@
 import random
 import time
-match_ups = []
-num1 = -2
-num2 = -1
-round_number = 1
+List_of_selected_animals = []
 semi_finals = []
+def reset():
+   global match_ups, num1, num2, round_number
+   match_ups = []
+   num1 = -2
+   num2 = -1
+   round_number = 1
+   
 def get_random_buff():
     return random.randint(1, 12)
 
 def get_random_number():
     return random.randint(1,4)
 
-def get_matchup():
-   while len(match_ups) != len(List_of_selected_animals):
-    randomed = random.randint(0, len(List_of_selected_animals)-1)
+def get_matchup(list):
+   while len(match_ups) != len(list):
+    randomed = random.randint(0, len(list)-1)
     if randomed in match_ups:
        continue
     else:
       match_ups.append(randomed)
    return(match_ups)
 
-def determine_iterable():
+def determine_iterable(list):
    global num1, num2
-   if num1 >= len(match_ups) or num2 >= len(match_ups):
+   if num1 >= len(list) or num2 >= len(list):
       e = "z"
    else:
     num1 += 2
@@ -30,10 +34,7 @@ def determine_iterable():
 
 def get_winner(animal_1, animal_2):
    power_1 =  dictionary1[animal_1]["Base_Strength"] + dictionary1[animal_1]["Base_Strength"] * 0.5 * (dictionary1[animal_1]["amount"])
-   power_2  = dictionary1[animal_1]["Base_Strength"] + dictionary1[animal_1]["Base_Strength"] * 0.5 * (dictionary1[animal_2]["amount"])
-   if max(match_ups) % 2 == 0:
-      print(f"{List_of_selected_animals[match_ups[match_ups.index(max(match_ups))]]} got a bye!")
-      semi_finals.append(List_of_selected_animals[match_ups[match_ups.index(max(match_ups))]])
+   power_2  = dictionary1[animal_2]["Base_Strength"] + dictionary1[animal_2]["Base_Strength"] * 0.5 * (dictionary1[animal_2]["amount"])
    if power_1 > power_2:
       semi_finals.append(animal_1)
       return(f"Round {round_number}: {animal_1} vs {animal_2}: {animal_1} wins!")
@@ -41,7 +42,8 @@ def get_winner(animal_1, animal_2):
       semi_finals.append(animal_2)
       return(f"Round {round_number}: {animal_1} vs {animal_2}: {animal_2} wins!")
    else:
-      semi_finals.append(animal_1, animal_2)
+      semi_finals.append(animal_1)
+      semi_finals.append(animal_2)
       return(f"Round {round_number}: {animal_1} vs {animal_2}: Draw!")
 letter_count = 0
 yes_or_no = "?"
@@ -103,7 +105,6 @@ dictionary1 = {'Spider': {
                       "amount": get_random_number()
                       },
 }
-List_of_selected_animals = []
 
 while True:
    animal_search = input("Search up an animal: ")
@@ -143,7 +144,7 @@ while True:
       print("Not in the dictionary")
 
 
-
+reset()
 print("Which animal do you think will win?")
 for animal in List_of_selected_animals:
    print(f"{animal} ({chr(ord("A") + letter_count)})")
@@ -155,11 +156,35 @@ while True:
      break
   print("Invalid")
 
-get_matchup()
+get_matchup(List_of_selected_animals)
+
+
 while True:
-   determine_iterable()
+   determine_iterable(match_ups)
    if num1 >= len(match_ups) or num2 >= len(match_ups):
-      break
+      if len(match_ups) % 2 != 0:
+         bye_index = match_ups[-1]
+         bye_animal = List_of_selected_animals[bye_index]
+         print(f"{bye_animal} got a bye!")
+         semi_finals.append(bye_animal)
+         break
+   print(get_winner(List_of_selected_animals[match_ups[num1]], List_of_selected_animals[match_ups[num2]]))
+   round_number += 1
+match_ups = []
+num_1 = -2
+num_1 = -1
+get_matchup(semi_finals)
+
+""""
+while True:
+   determine_iterable(semi_finals)
+   if num1 >= len(semi_finals) or num2 >= len(semi_finals):
+      if max(match_ups) % 2 == 0:
+         print(f"{List_of_selected_animals[match_ups[match_ups.index(max(match_ups))]]} got a bye!")
+         semi_finals.append(List_of_selected_animals[match_ups[match_ups.index(max(match_ups))]])
+         print(semi_finals)
+         break
    print(get_winner(List_of_selected_animals[match_ups[num1]], List_of_selected_animals[match_ups[num2]]))
    print(semi_finals)
-   round_number += 1
+   round_number += 12
+"""
