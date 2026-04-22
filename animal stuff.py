@@ -171,8 +171,8 @@ while True:
    print(get_winner(List_of_selected_animals[match_ups[num1]], List_of_selected_animals[match_ups[num2]]))
    round_number += 1
 match_ups = []
-num_1 = -2
-num_1 = -1
+num1 = -2
+num2 = -1
 get_matchup(semi_finals)
 
 """"
