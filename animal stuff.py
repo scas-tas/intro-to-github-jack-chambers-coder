@@ -8,7 +8,7 @@ def reset():
    num1 = -2
    num2 = -1
    round_number = 1
-   
+
 def get_random_buff():
     return random.randint(1, 12)
 
@@ -161,20 +161,20 @@ get_matchup(List_of_selected_animals)
 
 while True:
    determine_iterable(match_ups)
+
    if num1 >= len(match_ups) or num2 >= len(match_ups):
       if len(match_ups) % 2 != 0:
          bye_index = match_ups[-1]
          bye_animal = List_of_selected_animals[bye_index]
          print(f"{bye_animal} got a bye!")
          semi_finals.append(bye_animal)
-         break
+      break
    print(get_winner(List_of_selected_animals[match_ups[num1]], List_of_selected_animals[match_ups[num2]]))
    round_number += 1
 match_ups = []
 num1 = -2
 num2 = -1
 get_matchup(semi_finals)
-
 """"
 while True:
    determine_iterable(semi_finals)
