@@ -1,21 +1,35 @@
 import random
 import time
 List_of_selected_animals = []
-semi_finals = []
-def reset():
-   global match_ups, num1, num2, round_number
+division_1of2 = []
+division_2of2 = []
+division_number = 1
+divisions = {
+   1: division_1of2,
+   2: division_2of2
+}
+def get_div_number():
+   if division_number == 1:
+      return 2
+   else:
+      return 1
+
+def reset(): # resets the values
+   global match_ups, num1, num2, round_number, division_1of2, division_2of2
    match_ups = []
    num1 = -2
    num2 = -1
    round_number = 1
+   division_1of2 = []
+   division_2of2 = []
 
-def get_random_buff():
+def get_random_buff(): # Gets a random number for the buff
     return random.randint(1, 12)
 
-def get_random_number():
+def get_random_number(): # Gets a random number for the amount of animals fighting
     return random.randint(1,4)
 
-def get_matchup(list):
+def get_matchup(list): # Creates a new list of integers (match_ups) matching the amount of values in list
    while len(match_ups) != len(list):
     randomed = random.randint(0, len(list)-1)
     if randomed in match_ups:
@@ -27,24 +41,25 @@ def get_matchup(list):
 def determine_iterable(list):
    global num1, num2
    if num1 >= len(list) or num2 >= len(list):
-      e = "z"
+      return
    else:
     num1 += 2
     num2 += 2
 
-def get_winner(animal_1, animal_2):
+def get_winner(animal_1, animal_2): # Gets the winner based on two animals fighting
    power_1 =  dictionary1[animal_1]["Base_Strength"] + dictionary1[animal_1]["Base_Strength"] * 0.5 * (dictionary1[animal_1]["amount"])
    power_2  = dictionary1[animal_2]["Base_Strength"] + dictionary1[animal_2]["Base_Strength"] * 0.5 * (dictionary1[animal_2]["amount"])
    if power_1 > power_2:
-      semi_finals.append(animal_1)
+      divisions[get_div_number()].append(animal_1)
       return(f"Round {round_number}: {animal_1} vs {animal_2}: {animal_1} wins!")
    elif power_2 > power_1:
-      semi_finals.append(animal_2)
+      divisions[get_div_number()].append(animal_2)
       return(f"Round {round_number}: {animal_1} vs {animal_2}: {animal_2} wins!")
    else:
-      semi_finals.append(animal_1)
-      semi_finals.append(animal_2)
+      divisions[get_div_number()].append(animal_1)
+      divisions[get_div_number()].append(animal_2)
       return(f"Round {round_number}: {animal_1} vs {animal_2}: Draw!")
+
 letter_count = 0
 yes_or_no = "?"
 animal_letter = {}
@@ -106,7 +121,7 @@ dictionary1 = {'Spider': {
                       },
 }
 
-while True:
+while True: # The animal selection process
    animal_search = input("Search up an animal: ")
    if animal_search == "":
       break_it = input("Click enter again to continue to the tournament!")
@@ -115,7 +130,7 @@ while True:
    if animal_search.title() in dictionary1:
       print(f"Type: {dictionary1[animal_search.title()]["Type"]}")
       print(f"Base Strength: {dictionary1[animal_search.title()]["Base_Strength"]}")
-      if animal_search in List_of_selected_animals:
+      if animal_search.title() in divisions[division_number]:
           print("-"*70)
           print("This animal is already in the tournament!")
           print("-"*70)
@@ -124,12 +139,12 @@ while True:
         yes_or_no = input("Would you like to add this animal to the tournament? y/n: ")
 
         if yes_or_no.lower() in ["y", "yes"]:
-          List_of_selected_animals.append(animal_search.title())
+          divisions[division_number].append(animal_search.title())
           print("-"*70)
           print("Animal added to the tournament!")
           print("-"*70)
           print("Current tournament players:")
-          for animal in List_of_selected_animals:
+          for animal in divisions[division_number]:
              print(animal.title())
           print("-"*70)
           break
@@ -144,9 +159,9 @@ while True:
       print("Not in the dictionary")
 
 
-reset()
-print("Which animal do you think will win?")
-for animal in List_of_selected_animals:
+reset() 
+print("Which animal do you think will win?")  #Chosen animal selection process
+for animal in divisions[division_number]:
    print(f"{animal} ({chr(ord("A") + letter_count)})")
    animal_letter[animal.title()] = chr(ord("A") + letter_count)
    letter_count += 1
@@ -156,35 +171,43 @@ while True:
      break
   print("Invalid")
 
-get_matchup(List_of_selected_animals)
 
+get_matchup(divisions[division_number]) #Uses the function to randomise the battles
 
-while True:
-   determine_iterable(match_ups)
+while len(divisions[division_number]) != 1 :
+   while True:
+      determine_iterable(match_ups)
 
-   if num1 >= len(match_ups) or num2 >= len(match_ups):
-      if len(match_ups) % 2 != 0:
-         bye_index = match_ups[-1]
-         bye_animal = List_of_selected_animals[bye_index]
-         print(f"{bye_animal} got a bye!")
-         semi_finals.append(bye_animal)
-      break
-   print(get_winner(List_of_selected_animals[match_ups[num1]], List_of_selected_animals[match_ups[num2]]))
-   round_number += 1
-match_ups = []
-num1 = -2
-num2 = -1
-get_matchup(semi_finals)
-""""
-while True:
-   determine_iterable(semi_finals)
-   if num1 >= len(semi_finals) or num2 >= len(semi_finals):
-      if max(match_ups) % 2 == 0:
-         print(f"{List_of_selected_animals[match_ups[match_ups.index(max(match_ups))]]} got a bye!")
-         semi_finals.append(List_of_selected_animals[match_ups[match_ups.index(max(match_ups))]])
-         print(semi_finals)
+      if num1 >= len(match_ups) or num2 >= len(match_ups):
+         if len(match_ups) % 2 != 0:
+            bye_index = match_ups[-1]
+            bye_animal = divisions[division_number][bye_index]
+            print(f"{bye_animal} got a bye!")
+            divisions[get_div_number()].append(bye_animal)
          break
-   print(get_winner(List_of_selected_animals[match_ups[num1]], List_of_selected_animals[match_ups[num2]]))
-   print(semi_finals)
-   round_number += 12
-"""
+      print(get_winner(divisions[division_number][match_ups[num1]], divisions[division_number][match_ups[num2]]))
+      round_number += 1
+   divisions[division_number] = []
+
+   reset()
+   if division_number == 1:
+      division_number = 2
+   else:
+      division_number = 1
+   get_matchup(divisions[division_number])
+   move_on = input("Click enter to move on to the next phase! ")
+
+
+print("-"*70)
+print("The tournament is over!")
+print("-"*70)
+print("Calculating the winner", end="", flush=True)
+
+for i in range(3):
+    time.sleep(1)
+    print(".", end="", flush=True)
+print()
+print(f"{divisions[division_number][0]} claims victory!!!")
+
+
+
