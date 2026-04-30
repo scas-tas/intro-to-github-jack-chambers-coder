@@ -3,11 +3,36 @@ import time
 List_of_selected_animals = []
 division_1of2 = []
 division_2of2 = []
+phase = 1
 division_number = 1
 divisions = {
    1: division_1of2,
    2: division_2of2
 }
+
+def calculating_winner_delay(): # Creates a delay for a calculation effect
+   if len(match_ups) != 2:
+      print(f"Calculating the winner of round {round_number} ", end="", flush=True)
+      for i in range(3):
+         time.sleep(1)
+         print(".", end="", flush=True)
+      time.sleep(1)
+      print()
+   else:
+      return
+
+def next_phase_delay(): # Creates a delay between phases
+   print("-"*70)
+   print()
+   print(f"MOVING ON TO PHASE {phase} ", end="", flush=True)
+   for i in range(3):
+      time.sleep(1)
+      print(".", end="", flush=True)
+   time.sleep(1)
+   print()
+   print()
+   print("-"*70)
+
 def get_div_number():
    if division_number == 1:
       return 2
@@ -20,14 +45,9 @@ def reset(): # resets the values
    num1 = -2
    num2 = -1
    round_number = 1
-   division_1of2 = []
-   division_2of2 = []
-
-def get_random_buff(): # Gets a random number for the buff
-    return random.randint(1, 12)
 
 def get_random_number(): # Gets a random number for the amount of animals fighting
-    return random.randint(1,4)
+    return random.randint(1,10)
 
 def get_matchup(list): # Creates a new list of integers (match_ups) matching the amount of values in list
    while len(match_ups) != len(list):
@@ -121,6 +141,24 @@ dictionary1 = {'Spider': {
                       },
 }
 
+print("-"*120)
+for letter in "Welcome guest to the archaic library, search up one of the following animals to uncover their archaic terms!":
+   print(letter, end="", flush=True)
+   time.sleep(0.04)
+time.sleep(2)
+
+print(f"\n| Collecting animal data", end="", flush=True)
+for i in range(3):
+   time.sleep(1)
+   print(".", end="", flush=True)
+time.sleep(1)
+print()
+for animal in dictionary1:
+   print(animal) 
+   time.sleep(0.3)
+print("-"*120)
+
+
 while True: # The animal selection process
    animal_search = input("Search up an animal: ")
    if animal_search == "":
@@ -173,7 +211,7 @@ while True:
 
 
 get_matchup(divisions[division_number]) #Uses the function to randomise the battles
-
+next_phase_delay()
 while len(divisions[division_number]) != 1 :
    while True:
       determine_iterable(match_ups)
@@ -183,23 +221,36 @@ while len(divisions[division_number]) != 1 :
             bye_index = match_ups[-1]
             bye_animal = divisions[division_number][bye_index]
             print(f"{bye_animal} got a bye!")
+            print("-"*70)
             divisions[get_div_number()].append(bye_animal)
          break
-      print(get_winner(divisions[division_number][match_ups[num1]], divisions[division_number][match_ups[num2]]))
+      calculating_winner_delay()
+      print("-"*70)
+      if len(match_ups) != 2:
+         print(get_winner(divisions[division_number][match_ups[num1]], divisions[division_number][match_ups[num2]]))
+      else:
+
+         print(f"The final battle is between {divisions[division_number][match_ups[num1]]} and {divisions[division_number][match_ups[num2]]}!")
+         get_winner(divisions[division_number][match_ups[num1]], divisions[division_number][match_ups[num2]])
+      print("-"*70)
       round_number += 1
    divisions[division_number] = []
+   division_number = get_div_number()
+   if len(divisions[division_number]) == 1:
+        break
 
    reset()
-   if division_number == 1:
-      division_number = 2
-   else:
-      division_number = 1
+
    get_matchup(divisions[division_number])
+   print("Remaining contestants:")
+   for animal in divisions[division_number]:
+      print(animal)
+   print("-"*70)
+   phase += 1
    move_on = input("Click enter to move on to the next phase! ")
+   next_phase_delay()
 
 
-print("-"*70)
-print("The tournament is over!")
 print("-"*70)
 print("Calculating the winner", end="", flush=True)
 
@@ -207,7 +258,9 @@ for i in range(3):
     time.sleep(1)
     print(".", end="", flush=True)
 print()
+print("-"*70)
 print(f"{divisions[division_number][0]} claims victory!!!")
+print("-"*70)
 
 
 
