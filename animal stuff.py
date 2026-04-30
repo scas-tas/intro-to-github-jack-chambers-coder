@@ -9,10 +9,12 @@ divisions = {
    1: division_1of2,
    2: division_2of2
 }
-
+def sleep():
+   time.sleep(1)
+   return ""
 def calculating_winner_delay(): # Creates a delay for a calculation effect
    if len(match_ups) != 2:
-      print(f"Calculating the winner of round {round_number} ", end="", flush=True)
+      print(f"Beginning round {round_number} ", end="", flush=True)
       for i in range(3):
          time.sleep(1)
          print(".", end="", flush=True)
@@ -71,14 +73,40 @@ def get_winner(animal_1, animal_2): # Gets the winner based on two animals fight
    power_2  = dictionary1[animal_2]["Base_Strength"] + dictionary1[animal_2]["Base_Strength"] * 0.5 * (dictionary1[animal_2]["amount"])
    if power_1 > power_2:
       divisions[get_div_number()].append(animal_1)
-      return(f"Round {round_number}: {animal_1} vs {animal_2}: {animal_1} wins!")
+      print(f"Round {round_number}: {animal_1} vs {animal_2}:")
+      time.sleep(1)
+      print(f"{animal_1} has spawned in a group of {dictionary1[animal_1]['amount']}!")
+      time.sleep(1)
+      print(f"{animal_2} has spawned in a group of {dictionary1[animal_2]['amount']}")
+      time.sleep(1)
+      if len(match_ups) != 2:
+         print("Calculating winner...")
+         time.sleep(1)
+         print(f"{animal_1} wins!")
    elif power_2 > power_1:
       divisions[get_div_number()].append(animal_2)
-      return(f"Round {round_number}: {animal_1} vs {animal_2}: {animal_2} wins!")
+      print(f"Round {round_number}: {animal_1} vs {animal_2}:")
+      time.sleep(1)
+      print(f"{animal_1} has spawned in a group of {dictionary1[animal_1]['amount']}!")
+      time.sleep(1)
+      print(f"{animal_2} has spawned in a group of {dictionary1[animal_2]['amount']}!")
+      time.sleep(1)
+      if len(match_ups) != 2:
+         print("Calculating winner...")
+         time.sleep(1)
+         print(f"{animal_2} wins!")
    else:
       divisions[get_div_number()].append(animal_1)
       divisions[get_div_number()].append(animal_2)
-      return(f"Round {round_number}: {animal_1} vs {animal_2}: Draw!")
+      print(f"Round {round_number}: {animal_1} vs {animal_2}:")
+      time.sleep(1)
+      print(f"{animal_1} has spawned in a group of {dictionary1[animal_1]['amount']}!")
+      time.sleep(1)
+      print(f"{animal_2} has spawned in a group of {dictionary1[animal_2]['amount']}")
+      time.sleep(1)
+      print("Calculating winner...")
+      time.sleep(1)
+      print("Draw!")
 
 letter_count = 0
 yes_or_no = "?"
@@ -160,11 +188,14 @@ print("-"*120)
 
 
 while True: # The animal selection process
-   animal_search = input("Search up an animal: ")
-   if animal_search == "":
-      break_it = input("Click enter again to continue to the tournament!")
-      if break_it == "":
-         break
+   animal_search = input("Search up an animal (c to continue): ")
+   if animal_search == "c":
+      if len(divisions[division_number]) <= 1:
+         print("You do not have enough animals selected to continue!")
+      else:
+         break_it = input("Click enter again to continue to the tournament!")
+         if break_it == "":
+            break
    if animal_search.title() in dictionary1:
       print(f"Type: {dictionary1[animal_search.title()]["Type"]}")
       print(f"Base Strength: {dictionary1[animal_search.title()]["Base_Strength"]}")
@@ -190,11 +221,15 @@ while True: # The animal selection process
         elif yes_or_no.lower() in ["n", "no"]:
            print("-"*70)
            print("Animal not added to the tournament.")
+           print("-"*70)
            break
         else:
            print("Enter y/n! ")
    else:
-      print("Not in the dictionary")
+      if animal_search == "c":
+         continue
+      else:
+         print("Not in the dictionary")
 
 
 reset() 
@@ -220,6 +255,7 @@ while len(divisions[division_number]) != 1 :
          if len(match_ups) % 2 != 0:
             bye_index = match_ups[-1]
             bye_animal = divisions[division_number][bye_index]
+            time.sleep(1)
             print(f"{bye_animal} got a bye!")
             print("-"*70)
             divisions[get_div_number()].append(bye_animal)
@@ -227,13 +263,17 @@ while len(divisions[division_number]) != 1 :
       calculating_winner_delay()
       print("-"*70)
       if len(match_ups) != 2:
-         print(get_winner(divisions[division_number][match_ups[num1]], divisions[division_number][match_ups[num2]]))
+         get_winner(divisions[division_number][match_ups[num1]], divisions[division_number][match_ups[num2]])
       else:
 
          print(f"The final battle is between {divisions[division_number][match_ups[num1]]} and {divisions[division_number][match_ups[num2]]}!")
+         print("-"*70)
          get_winner(divisions[division_number][match_ups[num1]], divisions[division_number][match_ups[num2]])
       print("-"*70)
       round_number += 1
+   for animal in divisions[division_number]:
+      dictionary1[animal]["amount"] = get_random_number()
+
    divisions[division_number] = []
    division_number = get_div_number()
    if len(divisions[division_number]) == 1:
