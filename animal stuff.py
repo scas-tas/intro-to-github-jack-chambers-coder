@@ -102,7 +102,7 @@ def get_winner(animal_1, animal_2): # Gets the winner based on two animals fight
       time.sleep(1)
       print(f"{animal_1} has spawned in a group of {dictionary1[animal_1]['amount']}!")
       time.sleep(1)
-      print(f"{animal_2} has spawned in a group of {dictionary1[animal_2]['amount']}")
+      print(f"{animal_2} has spawned in a group of {dictionary1[animal_2]['amount']}!")
       time.sleep(1)
       print("Calculating winner...")
       time.sleep(1)
@@ -268,6 +268,7 @@ while len(divisions[division_number]) != 1 :
 
          print(f"The final battle is between {divisions[division_number][match_ups[num1]]} and {divisions[division_number][match_ups[num2]]}!")
          print("-"*70)
+         time.sleep(0.3)
          get_winner(divisions[division_number][match_ups[num1]], divisions[division_number][match_ups[num2]])
       print("-"*70)
       round_number += 1
@@ -302,5 +303,9 @@ print("-"*70)
 print(f"{divisions[division_number][0]} claims victory!!!")
 print("-"*70)
 
-
+if animal_letter[divisions[division_number][0]] == selected_animal.upper():
+   print("Your chosen animal won!")
+else:
+   print("You chose incorrectly...")
+print("-"*70)
 
