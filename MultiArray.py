@@ -13,7 +13,7 @@ def place():
     global counter
     while counter < 15:
         for row in range(0, 5):
-            if counter < 15:
+            if counter >= 15:
                 break
             column = random.randint(0, 4)
             if grid[row][column] == "X":
@@ -22,5 +22,5 @@ def place():
                 grid[row][column] = ("X")
                 counter += 1
 place()
-for list in grid:
-    print(list)
+for row in grid:
+    print("| " + " | ".join(row) + " |")
