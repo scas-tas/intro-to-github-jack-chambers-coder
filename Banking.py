@@ -110,7 +110,7 @@ accounts()
 print()
 main_line()
 
-while break_ != "y" or break_ != "n":
+while break_ != "y" and break_ != "n":
     break_ = input("Would you like to continue?(y/n): ")
     if break_ == "y":
         break
