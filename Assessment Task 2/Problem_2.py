@@ -14,7 +14,7 @@ def test_cases():
                [5,0,0]]
     classroom6=[[1,2],
                [3,4]]
-    return classroom6
+    return classroom1
 list_of_rows = []
 
 
