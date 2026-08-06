@@ -15,7 +15,6 @@ def decode(message, shift) -> str:
 
 def encode(message: str, shift: int) -> str:
     return "".join(chr((ord(c) - (65 if c.isupper() else 97) + shift) % 26 + (65 if c.isupper() else 97)) if c.isalpha() else c for c in message)
-
 def decode(message: str, shift: int) -> str:
     return encode(message, -shift)
 
