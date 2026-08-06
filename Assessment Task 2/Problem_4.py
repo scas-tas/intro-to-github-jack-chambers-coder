@@ -8,7 +8,12 @@ def encode(message, shift) -> str:
         if letter.isalpha():
             if letter.isupper():
                 num = ord(letter)
-                num += shift
+                num = upper_min + upper_max - num + shift
+                #num += shift
+                print(chr(num), end="")
+            else:
+                num = ord(letter)
+                num = lower_min + num - lower_min + shift 
                 print(chr(num), end="")
             
         else:
