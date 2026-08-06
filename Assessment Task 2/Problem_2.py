@@ -14,12 +14,12 @@ def test_cases():
                [5,0,0]]
     classroom6=[[1,2],
                [3,4]]
-    return classroom1
+    return classroom5
 list_of_rows = []
 
 
 def most_empty_row(classroom: list) -> int:
-    best_row = 0
+    best_row = -1
     best_count = -1
     empty_amount = 0
     for row_index in range(len(classroom)):
@@ -30,7 +30,7 @@ def most_empty_row(classroom: list) -> int:
             best_count = empty_amount
             best_row = row_index
         empty_amount = 0
-    return  best_row
+    return best_row
 
 
 def count_empty(classroom: list) -> int:
@@ -42,4 +42,4 @@ def count_empty(classroom: list) -> int:
     return count
  
 print(most_empty_row(test_cases()))
-#print(count_empty(test_cases()))
+print(count_empty(test_cases()))
