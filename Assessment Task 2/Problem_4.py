@@ -7,14 +7,15 @@ def encode(message, shift) -> str:
     for letter in message:
         if letter.isalpha():
             if letter.isupper():
-                num = ord(letter)
-                num = upper_min + upper_max - num + shift
-                #num += shift
-                print(chr(num), end="")
+                num = ord(letter) - upper_min
+                num = (num + shift) % upper_max
+                print(chr(num+upper_min), end="")
             else:
-                num = ord(letter)
-                num = lower_min + num - lower_min + shift 
-                print(chr(num), end="")
+                num = ord(letter) - lower_min
+                #print(f"test no 1: {num}")
+                num = (num + shift) % (lower_max - lower_min)
+                #print(f"test no 2: {num}")
+                print(chr(num+lower_min), end="")
             
         else:
             print(letter, end="")
@@ -22,6 +23,5 @@ def encode(message, shift) -> str:
  
 def decode(message, shift) -> str:
     return
-
 
 encode('Hello', 3)
