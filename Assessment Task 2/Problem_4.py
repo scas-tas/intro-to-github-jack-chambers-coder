@@ -17,22 +17,8 @@ def encode(message, shift) -> str:
         else:
             result += letter
     return result
- 
 def decode(message, shift) -> str:
-    result = ""
-    for letter in message:
-        if letter.isalpha():
-            if letter.isupper():
-                num = ord(letter) - upper_min
-                num = (num - shift) % (upper_max - upper_min + 1) # new number % range
-                result += chr(num+upper_min)
-            else:
-                num = ord(letter) - lower_min
-                num = (num - shift) % (lower_max - lower_min + 1) # new number % range
-                result += chr(num+lower_min)     
-        else:
-            result += letter
-    return result
+    return encode(message, -shift)
 
 print(encode('Hello', 3))
 print(encode('Hello, World!', 3))
